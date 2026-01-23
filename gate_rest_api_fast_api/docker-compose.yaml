@@ -1,0 +1,47 @@
+services:
+
+  gate_rest_api:
+    container_name: ${CONTAINER_NAME:-None}
+    image: ${CONTAINER_NAME:-None}:${BRANCH}-${TAG}-${COMMIT_SHORT_SHA}
+    build: .
+    volumes:
+      - "gate_io_log:/usr/src/${CONTAINER_NAME}/log:rw"
+    restart: always
+    hostname: ${CONTAINER_NAME:-None}
+    environment:
+      # - VERSION=${BRANCH}-${TAG}-${COMMIT_SHORT_SHA}
+      - PORT=${FAST_API_PORT}
+      - REDIS_PORT=${REDIS_PORT}
+      - IP_ADDRESS_REDIS=${IP_ADDRESS_REDIS}
+      - GATE_HOST=${GATE_HOST}
+      - GATE_KEY=${GATE_KEY}
+      - GATE_SECRET=${GATE_SECRET}
+    ports:
+      - ${FAST_API_PORT}:${FAST_API_PORT}
+    networks:
+      production:
+        ipv4_address: ${IP_ADDRESS}
+  redis:
+    container_name: ${CONTAINER_NAME:-None}_redis
+    image: redis:latest
+    restart: always
+    ports:
+      - "${REDIS_PORT}:${REDIS_PORT}"
+    volumes:
+      - /path/to/local/dаta:/root/redis
+      - /path/to/local/redis.conf:/usr/local/etc/redis/redis.conf
+    environment:
+      - REDIS_PORT=${REDIS_PORT}
+      - REDIS_DATABASES=16
+    networks:
+      production:
+        ipv4_address: ${IP_ADDRESS_REDIS}
+
+
+volumes:
+  gate_io_log:
+    external: True
+
+networks:
+  production:
+    external: True
