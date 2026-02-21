@@ -10,17 +10,17 @@ services:
     hostname: ${CONTAINER_NAME:-None}
     environment:
       # - VERSION=${BRANCH}-${TAG}-${COMMIT_SHORT_SHA}
-      - PORT=${FAST_API_PORT}
+      - PORT=${FASTAPI_PORT}
       - REDIS_PORT=${REDIS_PORT}
-      - IP_ADDRESS_REDIS=${IP_ADDRESS_REDIS}
+      - REDIS_HOST=${REDIS_HOST}
       - GATE_HOST=${GATE_HOST}
       - GATE_KEY=${GATE_KEY}
       - GATE_SECRET=${GATE_SECRET}
     ports:
-      - ${FAST_API_PORT}:${FAST_API_PORT}
+      - ${FASTAPI_PORT}:${FASTAPI_PORT}
     networks:
       production:
-        ipv4_address: ${IP_ADDRESS}
+        ipv4_address: ${FASTAPI_HOST}
   redis:
     container_name: ${CONTAINER_NAME:-None}_redis
     image: redis:latest
@@ -35,7 +35,7 @@ services:
       - REDIS_DATABASES=16
     networks:
       production:
-        ipv4_address: ${IP_ADDRESS_REDIS}
+        ipv4_address: ${REDIS_HOST}
 
 
 volumes:

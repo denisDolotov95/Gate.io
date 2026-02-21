@@ -10,7 +10,7 @@ class ProductionConfig(BaseModel):
     SECRET_KEY: str = os.environ.get("SECRET_KEY") or secrets.token_hex(256)
     DEBUG: bool = True
     REDIS_URL: str = (
-        f"redis://{os.environ.get('IP_ADDRESS_REDIS')}:{os.environ.get('REDIS_PORT')}"
+        f"redis://{os.environ.get('REDIS_HOST')}:{os.environ.get('REDIS_PORT')}"
     )
     # "url": "amqp://guest:guest@172.100.100.100"}
     api_metadata: str = json.loads(
